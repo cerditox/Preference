@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire">
+   
+    <v-app-bar max-height="50px" app color="cyan" dark>
+      <template v-if="user">
+      <v-tooltip >
+              <template   v-slot:activator="{ on }">
+                <v-btn :href="source" icon large target="_blank" v-on="on">
+                  <v-icon>mdi-plus-circle</v-icon>
+                </v-btn>
+              </template>
+              <span>add new notes</span>
+            </v-tooltip>         
+              <v-spacer></v-spacer>
+              <v-btn v-if="user" :href="source" icon large target="_blank" router-link to="/login">
+                  <v-icon>mdi-logout</v-icon>
+                </v-btn>
+    </template>
+    </v-app-bar>
+
+    <v-content>
+      
+            <router-view></router-view>
+       
+     
+    </v-content>
+
+    <v-footer color="cyan" app>
+      <v-spacer></v-spacer>
+      <span class="white--text">&copy; 2019</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
+  computed: {
+    user() {
+      return this.$store.state.authentication.user;
+    },
+
+}
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  
+
