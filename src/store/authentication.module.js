@@ -1,5 +1,6 @@
 import { userService } from '../services/userService';
 import { router } from '../_helper/router';
+import { notesService } from '../services/notesService';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
@@ -10,7 +11,7 @@ export const authentication = {
     namespaced: true,
     state: initialState,
     actions: {
-        login({ dispatch, commit }, { username, password }) {
+        login( {commit} , { username, password }) {
             commit('loginRequest', { username });
 
             userService.login(username, password)
@@ -20,15 +21,18 @@ export const authentication = {
                         router.push('/');
                     },
                     error => {
-                        commit('loginFailure', error);
-                        dispatch('alert/error', error, { root: true });
+                        commit('loginFailure', error)
+                        
                     }
                 );
         },
         logout({ commit }) {
             userService.logout();
             commit('logout');
-        }
+        },
+        delete({ commit }, id){
+            notesService.deleteNote(id);
+        } 
     },
     mutations: {
         loginRequest(state, user) {

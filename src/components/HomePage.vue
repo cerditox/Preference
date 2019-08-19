@@ -1,7 +1,10 @@
 <template>
-  <v-content>
+  
+  <v-content >
     <v-container v-for="(thing, index) in notes.items" :key="index" v-bind="thing">
-      <div class="mx-lg-auto">
+     
+      <div class="mx-lg-auto"  >
+        
         <v-card
           class="md"
           flat="flat"
@@ -10,41 +13,37 @@
           :elevation="elevation"
           raised="raised"
           :height="height"
+          v-model="notes.items[index]"
         >
           <v-toolbar color="primary" dark flat max-height="60px">
-            <v-tooltip>
-              <template v-slot:activator="{ on }">
+            <v-tooltip >
+              <template  v-slot:activator="{ on }">
                 <v-btn :href="source" icon large target="_blank" v-on="on">
                   <v-icon>mdi-share-variant</v-icon>
                 </v-btn>
               </template>
               <span>Source</span>
             </v-tooltip>
-            <v-tooltip>
-              <template v-slot:activator="{ on }">
-                <v-icon
-                  :href="source"
-                  v-model="notes"
-                  icon
-                  large
-                  target="_blank"
-                  v-on:click="handleNotes(thing)"
-                >
+              <v-tooltip >
+              <template   v-slot:activator="{ on }">
+                  
+                <v-btn  icon large target="_blank" >
                   <v-icon>mdi-pencil</v-icon>
-                </v-icon>
+                </v-btn>
               </template>
               <span>Source</span>
             </v-tooltip>
-
-            <v-spacer></v-spacer>
+            
+            
+            <v-spacer ></v-spacer>
             <v-tooltip right>
-              <template v-slot:activator="{ on }">
+              <template  v-slot:activator="{ on }">
                 <v-btn
                   icon
                   large
-                  href="https://codepen.io/johnjleider/pen/pMvGQO"
+                
                   target="_blank"
-                  v-on="on"
+                  v-on:click="handleNotes(thing)"
                 >
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
@@ -60,7 +59,7 @@
     </v-container>
   </v-content>
 </template>
-
+       
 
 
 <script>
@@ -77,11 +76,14 @@ export default {
   created() {
     // this.$store.dispatch('users/getAll');
     this.$store.dispatch("users/getAllNotes");
+    this.$store.disptach("users/getAll")
   },
-  methods: {
-    handleNotes(thing) {
-      console.log("pasando por aqui" + thing.id);
+    methods: {
+        handleNotes (thing) {
+            const { dispatch } = this.$store;
+            dispatch('authentication/delete', thing.id);
+
+        }
     }
-  }
 };
 </script>
